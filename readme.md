@@ -2,7 +2,8 @@
 
 This repo contains the following algorithms:
 
-1.  [Ullmann's](https://dl.acm.org/doi/10.1145/321921.321925) algorithm for the [subgraph isomorphism problem](https://en.wikipedia.org/wiki/Subgraph_isomorphism_problem)
+1.  [Ullmann's](https://dl.acm.org/doi/10.1145/321921.321925) algorithm for the [subgraph isomorphism problem](https://en.wikipedia.org/wiki/Subgraph_isomorphism_problem). 
+[Analysis](https://www.overleaf.com/read/vgdgynbsgxng) of the implementation is a work in progress.
 
 
 # Supported platforms

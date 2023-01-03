@@ -1,6 +1,8 @@
 
 #include "find_subgraph.h"
 
+#include <boost/graph/erdos_renyi_generator.hpp>
+#include <boost/random/linear_congruential.hpp>
 #include <gtest/gtest.h>
 
 #include <algorithm>
@@ -166,4 +168,24 @@ TEST(GraphAlgos, FindEmpty) {
       << "Subgraph has "
       << subgraph->size() + " vertices, but expected to have "
       << empty.m_vertices.size() + " vertices";
+}
+
+TEST(GraphAlgos, RandomGraph) {
+  // create random graphs with 0.25 probability
+  // see section 4 of https://dl.acm.org/doi/pdf/10.1145/321921.321925
+  using Graph = boost::adjacency_list<>;
+  using ERGen = boost::erdos_renyi_iterator<boost::minstd_rand, Graph>;
+  boost::minstd_rand gen;
+  Graph graph(ERGen(gen, 14, 0.05), ERGen(), 14);
+  Graph subgraph(ERGen(gen, 7, 0.05), ERGen(), 7);
+  PrintGraph(graph, "Graph");
+  PrintGraph(subgraph, "Subgraph");
+
+  auto subgraphAssignments = GraphAlgos::FindSubgraph(graph, subgraph);
+  ASSERT_TRUE(subgraphAssignments);
+  PrintGraph(subgraph, "Assigned Subgraph", *subgraphAssignments);
+  EXPECT_TRUE(subgraphAssignments->size() == subgraph.m_vertices.size())
+      << "Subgraph has "
+      << subgraphAssignments->size() + " vertices, but expected to have "
+      << subgraph.m_vertices.size() + " vertices";
 }
